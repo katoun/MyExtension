@@ -66,11 +66,20 @@ The extension provides three main classes:
 ### FirebaseWrapper Class (Singleton)
 - **Firebase Integration**: Complete Firebase C++ SDK wrapper for Godot
 - **Singleton Pattern**: Available globally as `Firebase` singleton (like Unity Firebase SDK)
+- **Clean Design**: Uses `FirebaseAppOptions` class for configuration, separating concerns
 - **Authentication**: Anonymous, email/password sign-in and sign-up
 - **Database**: Real-time database operations (set, get, delete)
 - **Storage**: File upload/download capabilities
 - **Cross-platform**: Works on Windows, Linux, Android, iOS, macOS
 - **Native Dependencies**: Automatically links Firebase libraries
+
+### FirebaseAppOptions Class
+- **Configuration Class**: Dedicated class for Firebase configuration (Unity-like approach)
+- **Type Safety**: Full Godot type system integration with proper property binding
+- **Validation**: Built-in `is_valid()` method to check required fields
+- **Utility Methods**: `set_defaults()` and `to_string()` for convenience
+- **Reusable**: Can be created once and reused across different Firebase instances
+- **Inspector Support**: Properties can be set in the Godot inspector
 
 ## Getting Started
 
@@ -173,7 +182,33 @@ The extension provides three main classes:
        MySingleton.hello_singleton($Label)
        
        # Use Firebase singleton (after setup-firebase.bat)
+       
+       # Method 1: Initialize with default options
        Firebase.initialize()
+       
+       # Method 2: Initialize with custom FirebaseAppOptions (clean, separated approach)
+       var options = FirebaseAppOptions.new()
+       options.project_id = "my-firebase-project"
+       options.app_id = "1:123456789:android:abcdef123456"
+       options.api_key = "AIzaSyYourApiKeyHere"
+       options.storage_bucket = "my-firebase-project.appspot.com"
+       options.auth_domain = "my-firebase-project.firebaseapp.com"
+       options.database_url = "https://my-firebase-project-default-rtdb.firebaseio.com/"
+       options.enable_auth = true
+       options.enable_database = true
+       options.enable_analytics = true
+       options.enable_storage = true
+       options.enable_messaging = true
+       options.enable_remote_config = true
+       options.enable_firestore = true
+       
+       # Validate and initialize
+       if options.is_valid():
+           Firebase.initialize_with_options(options)
+       else:
+           print("Invalid Firebase options!")
+       
+       # Use Firebase services
        Firebase.sign_in_anonymously()
        Firebase.set_database_value("users/123", {"name": "John Doe"})
        

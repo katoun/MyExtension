@@ -18,6 +18,7 @@ FirebaseWrapper* FirebaseWrapper::get_singleton() {
 void FirebaseWrapper::_bind_methods() {
     // Initialization
     ClassDB::bind_method(D_METHOD("initialize"), &FirebaseWrapper::initialize);
+    ClassDB::bind_method(D_METHOD("initialize_with_options", "options"), &FirebaseWrapper::initialize_with_options);
     ClassDB::bind_method(D_METHOD("shutdown"), &FirebaseWrapper::shutdown);
 
     // Authentication methods
@@ -46,7 +47,6 @@ void FirebaseWrapper::_bind_methods() {
 
 FirebaseWrapper::FirebaseWrapper() {
     _singleton = this;
-    // Constructor
 }
 
 FirebaseWrapper::~FirebaseWrapper() {
@@ -58,34 +58,141 @@ FirebaseWrapper::~FirebaseWrapper() {
 
 bool FirebaseWrapper::initialize() {
     if (is_initialized) {
+        print_line("Firebase already initialized!");
         return true;
     }
 
-    // Initialize Firebase SDK (commented out for now)
-    /*
-    firebase::AppOptions options;
-    // Note: You need to set your actual Firebase project configuration
-    // options.set_app_id("your-app-id");
-    // options.set_api_key("your-api-key");
-    // options.set_project_id("your-project-id");
+    // Create default options
+    Ref<FirebaseAppOptions> config;
+    config.instantiate();
+    config->set_defaults();
+    print_line("Using default Firebase options");
     
-    // For now, use default options (will work for testing)
-    firebase_app = firebase::App::Create(options);
+    // Validate required options
+    if (!config->is_valid()) {
+        print_line("Firebase initialization failed: Invalid default options");
+        return false;
+    }
+
+    // Initialize Firebase SDK with default options (commented out for now)
+    /*
+    firebase::AppOptions app_options;
+    app_options.set_app_id(config->get_app_id().utf8().get_data());
+    app_options.set_api_key(config->get_api_key().utf8().get_data());
+    app_options.set_project_id(config->get_project_id().utf8().get_data());
+    
+    if (!config->get_storage_bucket().is_empty()) {
+        app_options.set_storage_bucket(config->get_storage_bucket().utf8().get_data());
+    }
+    
+    if (!config->get_messaging_sender_id().is_empty()) {
+        app_options.set_messaging_sender_id(config->get_messaging_sender_id().utf8().get_data());
+    }
+    
+    if (!config->get_auth_domain().is_empty()) {
+        app_options.set_auth_domain(config->get_auth_domain().utf8().get_data());
+    }
+    
+    if (!config->get_database_url().is_empty()) {
+        app_options.set_database_url(config->get_database_url().utf8().get_data());
+    }
+
+    firebase_app = firebase::App::Create(app_options);
     if (firebase_app) {
-        firebase_auth = firebase::auth::Auth::GetAuth(firebase_app);
-        firebase_database = firebase::database::Database::GetInstance(firebase_app);
-        firebase_storage = firebase::storage::Storage::GetInstance(firebase_app);
+        if (config->get_enable_auth()) {
+            firebase_auth = firebase::auth::Auth::GetAuth(firebase_app);
+        }
+        if (config->get_enable_database()) {
+            firebase_database = firebase::database::Database::GetInstance(firebase_app);
+        }
+        if (config->get_enable_storage()) {
+            firebase_storage = firebase::storage::Storage::GetInstance(firebase_app);
+        }
         is_initialized = true;
         print_line("Firebase initialized successfully!");
         return true;
+    } else {
+        print_line("Firebase initialization failed!");
+        return false;
     }
     */
     
     // For now, just simulate initialization
     is_initialized = true;
-    print_line("Firebase wrapper initialized (simulation mode)!");
+    print_line("Firebase wrapper initialized with default options (simulation mode)!");
+    print_line("Project ID: " + config->get_project_id());
+    print_line("App ID: " + config->get_app_id());
     return true;
 }
+
+bool FirebaseWrapper::initialize_with_options(const Ref<FirebaseAppOptions>& options) {
+    if (is_initialized) {
+        print_line("Firebase already initialized!");
+        return true;
+    }
+
+    if (options.is_null()) {
+        print_line("Firebase initialization failed: Options is null");
+        return false;
+    }
+    
+    // Validate required options
+    if (!options->is_valid()) {
+        print_line("Firebase initialization failed: Invalid options (missing project_id, app_id, or api_key)");
+        return false;
+    }
+
+    // Initialize Firebase SDK with options (commented out for now)
+    /*
+    firebase::AppOptions app_options;
+    app_options.set_app_id(options->get_app_id().utf8().get_data());
+    app_options.set_api_key(options->get_api_key().utf8().get_data());
+    app_options.set_project_id(options->get_project_id().utf8().get_data());
+    
+    if (!options->get_storage_bucket().is_empty()) {
+        app_options.set_storage_bucket(options->get_storage_bucket().utf8().get_data());
+    }
+    
+    if (!options->get_messaging_sender_id().is_empty()) {
+        app_options.set_messaging_sender_id(options->get_messaging_sender_id().utf8().get_data());
+    }
+    
+    if (!options->get_auth_domain().is_empty()) {
+        app_options.set_auth_domain(options->get_auth_domain().utf8().get_data());
+    }
+    
+    if (!options->get_database_url().is_empty()) {
+        app_options.set_database_url(options->get_database_url().utf8().get_data());
+    }
+
+    firebase_app = firebase::App::Create(app_options);
+    if (firebase_app) {
+        if (options->get_enable_auth()) {
+            firebase_auth = firebase::auth::Auth::GetAuth(firebase_app);
+        }
+        if (options->get_enable_database()) {
+            firebase_database = firebase::database::Database::GetInstance(firebase_app);
+        }
+        if (options->get_enable_storage()) {
+            firebase_storage = firebase::storage::Storage::GetInstance(firebase_app);
+        }
+        is_initialized = true;
+        print_line("Firebase initialized successfully!");
+        return true;
+    } else {
+        print_line("Firebase initialization failed!");
+        return false;
+    }
+    */
+    
+    // For now, just simulate initialization
+    is_initialized = true;
+    print_line("Firebase wrapper initialized with custom options (simulation mode)!");
+    print_line("Project ID: " + options->get_project_id());
+    print_line("App ID: " + options->get_app_id());
+    return true;
+}
+
 
 void FirebaseWrapper::shutdown() {
     if (!is_initialized) {

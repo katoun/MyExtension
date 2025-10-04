@@ -2,6 +2,7 @@
 
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include "firebase_app_options.hpp"
 
 // Firebase includes (commented out for now to avoid linking issues)
 // #include "firebase/app.h"
@@ -34,6 +35,7 @@ public:
 
     // Initialization
     bool initialize();
+    bool initialize_with_options(const Ref<FirebaseAppOptions>& options);
     void shutdown();
 
     // Authentication methods

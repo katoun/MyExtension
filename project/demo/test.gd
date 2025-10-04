@@ -51,9 +51,34 @@ func _ready():
 		print("✓ Firebase singleton is available!")
 		$VBoxContainer/StatusLabel.text = "Status: All classes working!"
 		
-		# Test Firebase initialization
+		# Test Firebase initialization with default options
 		var init_result = Firebase.initialize()
 		print("✓ Firebase.initialize() returned: ", init_result)
+		
+		# Test FirebaseAppOptions class (clean, separated approach)
+		print("✓ Testing FirebaseAppOptions class...")
+		var options = FirebaseAppOptions.new()
+		options.project_id = "my-clean-project"
+		options.app_id = "1:555666777:android:xyzabc123456"
+		options.api_key = "AIzaSyCleanApiKey123456"
+		options.storage_bucket = "my-clean-project.appspot.com"
+		options.auth_domain = "my-clean-project.firebaseapp.com"
+		options.database_url = "https://my-clean-project-default-rtdb.firebaseio.com/"
+		options.enable_analytics = true
+		options.enable_auth = true
+		options.enable_database = true
+		options.enable_storage = true
+		options.enable_messaging = true
+		options.enable_remote_config = true
+		options.enable_firestore = true
+		
+		# Test FirebaseAppOptions methods
+		print("✓ FirebaseAppOptions validation: ", options.is_valid())
+		print("✓ FirebaseAppOptions string: ", options.to_string())
+		
+		# Initialize Firebase with FirebaseAppOptions (clean approach)
+		var init_with_options = Firebase.initialize_with_options(options)
+		print("✓ Firebase.initialize_with_options(options) returned: ", init_with_options)
 		
 		# Test Firebase authentication
 		Firebase.sign_in_anonymously()
