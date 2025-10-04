@@ -1,0 +1,26 @@
+[configuration]
+
+entry_symbol = "gdext_1000_init"
+compatibility_minimum = "4.5"
+reloadable = true
+
+[libraries]
+
+windows.debug.x86_64 = "res://addons/myextension/bin/libmyextension.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/myextension/bin/libmyextension.windows.template_release.x86_64.dll"
+windows.debug.arm64 = "res://addons/myextension/bin/libmyextension.windows.template_debug.arm64.dll"
+windows.release.arm64 = "res://addons/myextension/bin/libmyextension.windows.template_release.arm64.dll"
+linux.debug.x86_64 = "res://addons/myextension/bin/libmyextension.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/myextension/bin/libmyextension.windows.template_release.x86_64.so"
+linux.debug.arm64 = "res://addons/myextension/bin/libmyextension.linux.template_debug.arm64.so"
+linux.release.arm64 = "res://addons/myextension/bin/libmyextension.linux.template_release.arm64.so"
+macos.debug = "res://addons/myextension/bin/libmyextension.macos.template_debug.framework"
+macos.release = "res://addons/myextension/bin/libmyextension.macos.template_release.framework"
+android.debug.x86_64 = "res://addons/myextension/bin/libmyextension.android.template_debug.x86_64.so"
+android.release.x86_64 = "res://addons/myextension/bin/libmyextension.android.template_release.x86_64.so"
+android.debug.arm64 = "res://addons/myextension/bin/libmyextension.android.template_debug.arm64.so"
+android.release.arm64 = "res://addons/myextension/bin/libmyextension.android.template_release.arm64.so"
+ios.debug = "res://addons/myextension/bin/libmyextension.ios.template_debug.framework"
+ios.release = "res://addons/myextension/bin/libmyextension.ios.template_release.framework"
+web.debug.wasm32 = "res://addons/myextension/bin/libmyextension.web.template_debug.wasm32.wasm"
+web.release.wasm32 = "res://addons/myextension/bin/libmyextension.web.template_release.wasm32.wasm"
