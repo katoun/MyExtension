@@ -1,13 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqj8x8v8x8x8x"]
 
-[ext_resource type="Script" path="res://demo/main.gd" id="1_0hfxj"]
+[ext_resource type="Script" path="res://demo/test.gd" id="1_0hfxj"]
 
-[node name="Main" type="Control"]
+[node name="TestScene" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_0hfxj")
+
+[node name="MyNode" type="MyNode" parent="."]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -21,22 +23,18 @@ offset_top = -100.0
 offset_right = 200.0
 offset_bottom = 100.0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "MyExtension Demo"
+text = "MyExtension Test"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
+[node name="TestLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Hello GDScript!"
+text = "Testing extension..."
 
-[node name="Label3" type="Label" parent="VBoxContainer"]
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Hello GDExtension Node!"
-
-[node name="Label4" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Hello GDExtension Singleton!"
+text = "Status: Ready"

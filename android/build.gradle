@@ -1,0 +1,53 @@
+// Android build configuration for GDExtension with native dependencies
+// This file should be placed in your Android project's app/build.gradle
+
+android {
+    compileSdkVersion 34
+    
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+        ndk {
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    // Enable NDK build
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+    
+    // Configure AAR dependencies
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libfirebase_app.so'
+        pickFirst '**/libfirebase_auth.so'
+        pickFirst '**/libfirebase_database.so'
+    }
+}
+
+dependencies {
+    // Firebase Android SDK
+    implementation 'com.google.firebase:firebase-bom:32.7.0'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-analytics'
+    
+    // Firebase AAR files (if using local AAR files)
+    // implementation files('libs/android/firebase_auth.aar')
+    // implementation files('libs/android/firebase_database.aar')
+    
+    // Other native dependencies
+    // implementation files('libs/android/your_native_lib.aar')
+}
