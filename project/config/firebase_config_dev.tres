@@ -1,0 +1,17 @@
+[gd_resource type="FirebaseAppOptionsResource" format=3 uid="uid://cdev123456789012345"]
+
+[resource]
+app_id = "1:987654321:android:dev123456789"
+api_key = "AIzaSyDevApiKey987654321"
+project_id = "my-firebase-project-dev"
+storage_bucket = "my-firebase-project-dev.appspot.com"
+messaging_sender_id = "987654321"
+auth_domain = "my-firebase-project-dev.firebaseapp.com"
+database_url = "https://my-firebase-project-dev-default-rtdb.firebaseio.com/"
+enable_analytics = true
+enable_auth = true
+enable_database = true
+enable_storage = true
+enable_messaging = true
+enable_remote_config = true
+enable_firestore = true

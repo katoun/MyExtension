@@ -1,0 +1,17 @@
+[gd_resource type="FirebaseAppOptionsResource" format=3 uid="uid://bqj8x7y2z3w4v5u6"]
+
+[resource]
+app_id = "1:123456789:android:abcdef123456"
+api_key = "AIzaSySampleApiKey123456789"
+project_id = "my-sample-firebase-project"
+storage_bucket = "my-sample-firebase-project.appspot.com"
+messaging_sender_id = "123456789"
+auth_domain = "my-sample-firebase-project.firebaseapp.com"
+database_url = "https://my-sample-firebase-project-default-rtdb.firebaseio.com/"
+enable_analytics = true
+enable_auth = true
+enable_database = true
+enable_storage = true
+enable_messaging = true
+enable_remote_config = true
+enable_firestore = true

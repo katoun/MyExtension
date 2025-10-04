@@ -80,6 +80,34 @@ func _ready():
 		var init_with_options = Firebase.initialize_with_options(options)
 		print("✓ Firebase.initialize_with_options(options) returned: ", init_with_options)
 		
+		# Test Firebase configuration from resource file
+		print("✓ Testing Firebase configuration from resource file...")
+		var config_resource = load("res://config/firebase_config.tres")
+		if config_resource and config_resource is FirebaseAppOptionsResource:
+			print("✓ Firebase configuration resource loaded successfully!")
+			print("✓ Resource validation: ", config_resource.is_valid())
+			print("✓ Resource string: ", config_resource.to_string())
+			
+			# Convert resource to FirebaseAppOptions and initialize
+			var resource_options = config_resource.to_firebase_app_options()
+			if resource_options.is_valid():
+				var init_from_resource = Firebase.initialize_with_options(resource_options)
+				print("✓ Firebase.initialize_with_options(from_resource) returned: ", init_from_resource)
+			else:
+				print("✗ Invalid Firebase options from resource!")
+		else:
+			print("✗ Failed to load Firebase configuration resource!")
+		
+		# Test different environment configurations
+		print("✓ Testing environment-specific configurations...")
+		var dev_config = load("res://config/firebase_config_dev.tres")
+		var prod_config = load("res://config/firebase_config_prod.tres")
+		
+		if dev_config and dev_config is FirebaseAppOptionsResource:
+			print("✓ Development config loaded: ", dev_config.project_id)
+		if prod_config and prod_config is FirebaseAppOptionsResource:
+			print("✓ Production config loaded: ", prod_config.project_id)
+		
 		# Test Firebase authentication
 		Firebase.sign_in_anonymously()
 		print("✓ Firebase.sign_in_anonymously() called")

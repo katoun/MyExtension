@@ -7,6 +7,7 @@
 #include "my_singleton.hpp"
 #include "firebase_wrapper.hpp"
 #include "firebase_app_options.hpp"
+#include "firebase_app_options_resource.hpp"
 
 using namespace godot;
 
@@ -17,6 +18,7 @@ void gdextension_initialize(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<MySingleton>();
 	ClassDB::register_class<FirebaseWrapper>();
 	ClassDB::register_class<FirebaseAppOptions>();
+	ClassDB::register_class<FirebaseAppOptionsResource>();
 	
 	// Create and register the singletons
 	MySingleton *my_singleton = memnew(MySingleton);

@@ -20,17 +20,25 @@ MyExtention/
 │   ├── my_singleton.cpp   # MySingleton class implementation
 │   ├── my_singleton.hpp   # MySingleton class header
 │   ├── firebase_wrapper.cpp # Firebase integration wrapper
-│   └── firebase_wrapper.hpp # Firebase integration header
+│   ├── firebase_wrapper.hpp # Firebase integration header
+│   ├── firebase_app_options.cpp # FirebaseAppOptions class implementation
+│   ├── firebase_app_options.hpp # FirebaseAppOptions class header
+│   ├── firebase_app_options_resource.cpp # FirebaseAppOptionsResource class implementation
+│   └── firebase_app_options_resource.hpp # FirebaseAppOptionsResource class header
 ├── project/               # Godot project for testing
 │   ├── project.godot      # Project configuration
 │   ├── icon.svg           # Project icon
+│   ├── config/            # Firebase configuration files (game-specific)
+│   │   ├── firebase_config.tres      # Default configuration
+│   │   ├── firebase_config_dev.tres  # Development configuration
+│   │   └── firebase_config_prod.tres # Production configuration
 │   ├── addons/myextension/ # Extension files
 │   │   ├── myextension.gdextension
 │   │   ├── plugin.cfg     # Plugin metadata
 │   │   └── bin/           # Compiled binaries (generated)
 │   └── demo/              # Demo scenes and scripts
-│       ├── main.tscn
-│       └── main.gd
+│       ├── test.tscn
+│       └── test.gd
 ├── libs/                  # Native dependencies (Firebase, etc.)
 │   ├── windows/x86_64/    # Windows 64-bit libraries
 │   ├── linux/x86_64/      # Linux 64-bit libraries
@@ -81,7 +89,26 @@ The extension provides three main classes:
 - **Reusable**: Can be created once and reused across different Firebase instances
 - **Inspector Support**: Properties can be set in the Godot inspector
 
+### FirebaseAppOptionsResource Class
+- **Resource Class**: Extends Godot's Resource class for persistent configuration
+- **Game-Specific Configuration**: Save and load Firebase configuration from `.tres` files in your project's `config/` folder
+- **Environment Support**: Different configurations for dev/staging/production
+- **Build Integration**: Configuration files are included in the build
+- **Security**: Keep sensitive API keys in resource files, not in code
+- **Conversion**: `to_firebase_app_options()` method converts to runtime options
+- **Project Isolation**: Each game/project has its own Firebase configuration
+
 ## Getting Started
+
+### Firebase Configuration Setup
+
+1. **Create Configuration Directory**: Create a `config/` folder in your project root
+2. **Create Configuration Files**: Create `.tres` files for different environments:
+   - `config/firebase_config.tres` - Default configuration
+   - `config/firebase_config_dev.tres` - Development environment
+   - `config/firebase_config_prod.tres` - Production environment
+3. **Configure Firebase Settings**: Edit the `.tres` files with your Firebase project details
+4. **Load Configuration**: Use `load("res://config/firebase_config.tres")` in your code
 
 ### Prerequisites
 
@@ -215,6 +242,21 @@ The extension provides three main classes:
        # Check authentication status
        if Firebase.is_signed_in():
            print("User ID: ", Firebase.get_user_id())
+       
+       # Method 3: Load configuration from resource file (recommended for production)
+       var config_resource = load("res://config/firebase_config.tres")
+       if config_resource and config_resource is FirebaseAppOptionsResource:
+           var resource_options = config_resource.to_firebase_app_options()
+           if resource_options.is_valid():
+               Firebase.initialize_with_options(resource_options)
+       
+       # Method 4: Environment-specific configurations
+       var environment = "dev"  # or "prod" based on your build
+       var config_path = "res://config/firebase_config_" + environment + ".tres"
+       var env_config = load(config_path)
+       if env_config and env_config is FirebaseAppOptionsResource:
+           var env_options = env_config.to_firebase_app_options()
+           Firebase.initialize_with_options(env_options)
    ```
 
 ### Testing the Demo
